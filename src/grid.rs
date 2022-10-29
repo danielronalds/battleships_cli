@@ -1,3 +1,5 @@
+use crate::Battleship;
+
 // Struct to store a grid
 pub struct Grid {
     width: u8,
@@ -27,15 +29,26 @@ impl Grid {
         &self.height
     }
 
-    pub fn draw(&self) {
+    pub fn draw(&self, battleships: &Vec<Battleship>) {
         // Drawing the top header
         self.draw_header();
 
-        for _y in 0..self.height {
+        for y in 0..self.height {
             let mut row = String::from("|");
 
-            for _x in 0..self.width {
-                row.push_str("   |");
+            for x in 0..self.width {
+                let mut border_drawn = false;
+
+                for battleship in battleships {
+                    if battleship.occupies(x, y) {
+                        row.push_str(" B |");
+                        border_drawn = true;
+                        break;
+                    }
+                }
+
+                // Drawing the border if it wasn't already drawn
+                if !border_drawn { row.push_str("   |"); } 
             }
 
             println!("{}", row);

@@ -18,15 +18,36 @@ impl Grid {
         Ok(Grid {width, height})
     }
 
+    pub fn get_width(&self) -> &u8 {
+        &self.width
+    }
+
+
+    pub fn get_height(&self) -> &u8 {
+        &self.height
+    }
+
     pub fn draw(&self) {
-        draw_header();
+        // Drawing the top header
+        self.draw_header();
+
+        for _y in 0..self.height {
+            let mut row = String::from("|");
+
+            for _x in 0..self.width {
+                row.push_str("   |");
+            }
+
+            println!("{}", row);
+            self.draw_header();
+        }
     }
 
     fn draw_header(&self) {
-        let mut header = "+";
+        let mut header = String::from("+");
 
-        for i in 0..self.width {
-            header += "---+";
+        for _i in 0..self.width {
+            header.push_str("---+");
         }
 
         println!("{}", header);

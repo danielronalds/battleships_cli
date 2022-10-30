@@ -20,12 +20,12 @@ impl Grid {
         Ok(Grid {width, height})
     }
 
-    pub fn get_width(&self) -> &u8 {
+    pub fn width(&self) -> &u8 {
         &self.width
     }
 
 
-    pub fn get_height(&self) -> &u8 {
+    pub fn height(&self) -> &u8 {
         &self.height
     }
 

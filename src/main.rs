@@ -26,7 +26,10 @@ fn main() {
 
     while !game_over(&battleships, &hits) {
         // Drawing the grid
-        grid.draw(&battleships);
+        // grid.draw(&battleships);
+        grid.draw_hits_and_misses(&hits, &misses);
+
+        println!("");
 
         // Getting the x and y coordinates
         println!("Please pick an X and Y position");
@@ -35,12 +38,24 @@ fn main() {
         let y_guess = get_guess("Y", grid.height() - 1);
 
         // Checking for hits
+        let mut hit = false;
+
         for battleship in &battleships {
             if battleship.occupies(x_guess, y_guess) {
-                println!("\nThat was a hit!");
-                hits.push(Point::new(x_guess, y_guess));
+                hit = true;
                 break;
             }
+        }
+
+        // Clearing the screen
+        print!("{esc}c", esc = 27 as char);
+
+        if hit {
+            println!("That was a hit!");
+            hits.push(Point::new(x_guess, y_guess));
+        } else {
+            misses.push(Point::new(x_guess, y_guess));
+            println!("That was a miss!");
         }
     }
 
@@ -69,7 +84,9 @@ fn get_guess(axis: &str, max: u8) -> u8 {
         let guess: u8 = match guess.trim().parse() {
             Ok(coordinate) => {
                 if coordinate > max {
+                    // Preparing the print statment
                     print!("Coordinate is out of bounds! Try again: ");
+                    // Printing it to the console
                     io::stdout().flush().unwrap();
                     continue;
                 }

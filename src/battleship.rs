@@ -1,24 +1,14 @@
-// Struct to store a point
-pub struct Point {
-    x: u8,
-    y: u8,
-}
-
-impl Point {
-    pub fn new(x: u8, y: u8) -> Point {
-        Point { x, y }
-    }
-}
+use crate::point::Point;
 
 pub enum Direction { Horizontal, Vertical }
 
 pub struct Battleship {
-    points: Vec<Point>
+    points: Vec<Point>,
 }
 
 impl Battleship {
+    /// Creating the vector to store the points the battleship occupies
     pub fn new(x: u8, y: u8, length: u8, direction: Direction) -> Battleship {
-        // Creating the vector to store the points the battleship occupies
         let mut points = Vec::new();
 
         // Adding the points the battleship occupies
@@ -33,13 +23,19 @@ impl Battleship {
                 Direction::Vertical => y += 1,
             }
         }
-
+ 
         Battleship { points } 
     }
 
+    /// Returns how long the battleship is
+    pub fn length(&self) -> usize {
+        self.points.len()
+    }
+
+    /// Returns whether the battleship occupies the x and y points given
     pub fn occupies(&self, x: u8, y: u8) -> bool {
         for point in &self.points {
-            if point.x == x && point.y == y {
+            if point.x() == x && point.y() == y {
                 return true;
             }
         }
